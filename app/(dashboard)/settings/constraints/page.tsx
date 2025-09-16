@@ -20,7 +20,7 @@ export default function ConstraintsPage() {
 
   useEffect(() => {
     const fetchConstraints = async () => {
-      const res = await fetch('http://localhost:5001/api/constraints', {
+      const res = await fetch('/api/constraints', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await res.json();
@@ -35,7 +35,7 @@ export default function ConstraintsPage() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await fetch('http://localhost:5001/api/constraints', {
+    await fetch('/api/constraints', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

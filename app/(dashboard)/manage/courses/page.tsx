@@ -28,7 +28,8 @@ export default function ManageCoursesPage() {
 
   const fetchCourses = useCallback(async () => {
     if (!token) return;
-    const res = await fetch('http://localhost:5001/api/data/courses', { headers: { 'Authorization': `Bearer ${token}` } });
+    // --- CORRECTED URL ---
+    const res = await fetch('/api/data/courses', { headers: { 'Authorization': `Bearer ${token}` } });
     if (res.ok) setCourses(await res.json());
   }, [token]);
 
@@ -49,15 +50,11 @@ export default function ManageCoursesPage() {
   
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    const url = editingId ? `http://localhost:5001/api/data/courses/${editingId}` : 'http://localhost:5001/api/data/courses';
+    // --- CORRECTED URL ---
+    const url = editingId ? `/api/data/courses/${editingId}` : '/api/data/courses';
     const method = editingId ? 'PUT' : 'POST';
 
-    // Ensure numeric values are sent as numbers
-    const submissionData = {
-        ...formData,
-        credits: Number(formData.credits),
-        contactHours: Number(formData.contactHours),
-    };
+    const submissionData = { ...formData, credits: Number(formData.credits), contactHours: Number(formData.contactHours) };
 
     const res = await fetch(url, { method, headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }, body: JSON.stringify(submissionData) });
     if (res.ok) { setIsModalOpen(false); await fetchCourses(); } else { alert('Failed to save course.'); }
@@ -65,7 +62,8 @@ export default function ManageCoursesPage() {
 
   const handleDelete = async (id: string) => {
     if (!window.confirm('Are you sure?')) return;
-    const res = await fetch(`http://localhost:5001/api/data/courses/${id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } });
+    // --- CORRECTED URL ---
+    const res = await fetch(`/api/data/courses/${id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } });
     if (res.ok) await fetchCourses(); else alert('Failed to delete course.');
   };
 

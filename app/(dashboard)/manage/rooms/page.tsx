@@ -24,7 +24,7 @@ export default function ManageRoomsPage() {
 
   const fetchRooms = useCallback(async () => {
     if (!token) return;
-    const res = await fetch('http://localhost:5001/api/data/rooms', { headers: { 'Authorization': `Bearer ${token}` } });
+    const res = await fetch('/api/data/rooms', { headers: { 'Authorization': `Bearer ${token}` } });
     if (res.ok) setRooms(await res.json());
   }, [token]);
 
@@ -37,7 +37,7 @@ export default function ManageRoomsPage() {
   
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    const url = editingId ? `http://localhost:5001/api/data/rooms/${editingId}` : 'http://localhost:5001/api/data/rooms';
+    const url = editingId ? `/api/data/rooms/${editingId}` : '/api/data/rooms';
     const method = editingId ? 'PUT' : 'POST';
 
     // Ensure numeric values are sent as numbers
@@ -52,7 +52,7 @@ export default function ManageRoomsPage() {
 
   const handleDelete = async (id: string) => {
     if (!window.confirm('Are you sure?')) return;
-    const res = await fetch(`http://localhost:5001/api/data/rooms/${id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } });
+    const res = await fetch(`/api/data/rooms/${id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } });
     if (res.ok) await fetchRooms(); else alert('Failed to delete room.');
   };
 

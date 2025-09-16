@@ -44,7 +44,7 @@ export default function ViewTimetablePage() {
   const handleStatusUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!currentSlot) return;
-    const res = await fetch(`http://localhost:5001/api/timetables/${latestTimetable._id}/slots/${currentSlot._id}`, { 
+    const res = await fetch(`/api/timetables/${latestTimetable._id}/slots/${currentSlot._id}`, { 
       method: 'PUT', 
       headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }, 
       body: JSON.stringify(formData) 

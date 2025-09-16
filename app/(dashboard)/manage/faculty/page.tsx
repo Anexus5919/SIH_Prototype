@@ -25,7 +25,8 @@ export default function ManageFacultyPage() {
   const fetchFaculty = useCallback(async () => {
     if (!token) return;
     try {
-      const res = await fetch('http://localhost:5001/api/data/faculty', {
+      // --- CORRECTED URL ---
+      const res = await fetch('/api/data/faculty', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (!res.ok) throw new Error('Failed to fetch faculty data');
@@ -58,7 +59,8 @@ export default function ManageFacultyPage() {
   
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    const url = editingId ? `http://localhost:5001/api/data/faculty/${editingId}` : 'http://localhost:5001/api/data/faculty';
+    // --- CORRECTED URL ---
+    const url = editingId ? `/api/data/faculty/${editingId}` : '/api/data/faculty';
     const method = editingId ? 'PUT' : 'POST';
 
     const submissionData = { ...formData, expertise: (formData.expertise as string).split(',').map(item => item.trim()).filter(Boolean) };
@@ -75,7 +77,8 @@ export default function ManageFacultyPage() {
 
   const handleDelete = async (id: string) => {
     if (!window.confirm('Are you sure?')) return;
-    const res = await fetch(`http://localhost:5001/api/data/faculty/${id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } });
+    // --- CORRECTED URL ---
+    const res = await fetch(`/api/data/faculty/${id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } });
     if (res.ok) await fetchFaculty();
     else alert('Failed to delete faculty.');
   };
@@ -95,7 +98,7 @@ export default function ManageFacultyPage() {
             <thead><tr className="border-b border-gray-300 dark:border-gray-700"><th className="p-3">Name</th><th className="p-3">Expertise</th><th className="p-3">Max Workload</th><th className="p-3 text-right">Actions</th></tr></thead>
             <tbody>
               {facultyList.map((faculty) => (
-                <tr key={faculty._id} className="border-b border-gray-200 dark:border-gray-800 hover:bg-gray-100/50 dark:hover:bg-gray-700/ ৫০">
+                <tr key={faculty._id} className="border-b border-gray-200 dark:border-gray-800 hover:bg-gray-100/50 dark:hover:bg-gray-700/50">
                   <td className="p-3 font-semibold">{faculty.name}</td>
                   <td className="p-3 text-sm">{Array.isArray(faculty.expertise) ? faculty.expertise.join(', ') : ''}</td>
                   <td className="p-3 text-center">{faculty.maxWorkload}</td>
@@ -114,7 +117,7 @@ export default function ManageFacultyPage() {
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title={editingId ? 'Edit Faculty' : 'Add New Faculty'}>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div><label className="text-sm">Full Name</label><input type="text" name="name" value={formData.name} onChange={handleInputChange} required className="w-full mt-1 p-2 bg-gray-200 dark:bg-gray-700 rounded-md"/></div>
-          <div><label className="text-sm">Expertise</label><input type="text" name="expertise" value={formData.expertise} onChange={handleInputChange} placeholder="e.g., CS101, MA203" required className="w-full mt-1 p-2 bg-gray-200 dark:bg-gray-700 rounded-md"/><p className="text-xs text-gray-500 mt-1">Comma-separated course codes.</p></div>
+          <div><label className="text-sm">Expertise</label><input type="text" name="expertise" value={formData.expertise as string} onChange={handleInputChange} placeholder="e.g., CS101, MA203" required className="w-full mt-1 p-2 bg-gray-200 dark:bg-gray-700 rounded-md"/><p className="text-xs text-gray-500 mt-1">Comma-separated course codes.</p></div>
           <div><label className="text-sm">Max Workload (Hrs/Week)</label><input type="number" name="maxWorkload" value={formData.maxWorkload} onChange={handleInputChange} required min="1" className="w-full mt-1 p-2 bg-gray-200 dark:bg-gray-700 rounded-md"/></div>
           <div className="pt-4"><Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700">Save Faculty</Button></div>
         </form>

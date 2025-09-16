@@ -26,7 +26,7 @@ export default function GenerateTimetablePage() {
     try {
       if (!token) throw new Error("Authentication error. Please log in again.");
 
-      const res = await fetch('http://localhost:5001/api/generate', {
+      const res = await fetch('/api/generate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

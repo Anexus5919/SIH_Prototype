@@ -26,23 +26,22 @@ export default function RegisterPage() {
     setError('');
 
     try {
-      // --- ❗ THIS IS THE CORRECTED URL ❗ ---
-      const res = await fetch('http://localhost:5001/api/auth/register', {
+      // --- ❗ CORRECTED URL: Use a relative path to your Next.js API route ❗ ---
+      const res = await fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, password, role }),
       });
-      // ------------------------------------
+      // --------------------------------------------------------------------
 
       const data = await res.json();
       if (!res.ok) throw new Error(data.msg || 'Failed to register');
 
-      // On success, redirect to login so the user can sign in
       alert('Registration successful! Please log in.');
       router.push('/login');
 
-    } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
+    } catch (err: any) {
+      setError(err.message);
     } finally {
       setIsLoading(false);
     }

@@ -1,6 +1,6 @@
 'use client';
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import { useAuth } from './AuthContext'; // We need the auth token to fetch
+import { useAuth } from './AuthContext';
 
 const TimetableContext = createContext<any>(null);
 
@@ -9,7 +9,6 @@ export const TimetableProvider = ({ children }: { children: React.ReactNode }) =
   const [latestTimetable, setLatestTimetable] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  
   useEffect(() => {
     const fetchLatestTimetable = async () => {
       if (!token) {
@@ -18,23 +17,29 @@ export const TimetableProvider = ({ children }: { children: React.ReactNode }) =
       }
       
       try {
-        const res = await fetch('http://localhost:5001/api/timetables/latest', {
+        // --- ❗ THIS URL IS NOW RELATIVE ❗ ---
+        const res = await fetch('/api/timetables/latest', {
           headers: { 'Authorization': `Bearer ${token}` }
         });
+        // ------------------------------------
 
         if (res.ok) {
           const data = await res.json();
           setLatestTimetable(data);
+        } else if (res.status === 404) {
+          setLatestTimetable(null);
+        } else {
+          console.error("Failed to fetch latest timetable:", res.statusText);
         }
       } catch (error) {
-        console.error("Failed to fetch latest timetable:", error);
+        console.error("Network error while fetching timetable:", error);
       } finally {
         setIsLoading(false);
       }
     };
 
     fetchLatestTimetable();
-  }, [token]); // Refetch when the user logs in (token becomes available)
+  }, [token]);
   
   return (
     <TimetableContext.Provider value={{ latestTimetable, setLatestTimetable, isLoading }}>
