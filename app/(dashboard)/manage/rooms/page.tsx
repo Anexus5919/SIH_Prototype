@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, FormEvent, ChangeEvent } from 'react';
+import { useState, useEffect, useCallback, FormEvent, ChangeEvent } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { Button } from '@/components/ui/Button';
@@ -22,13 +22,13 @@ export default function ManageRoomsPage() {
   const [formData, setFormData] = useState<Room>(initialFormState);
   const [editingId, setEditingId] = useState<string | null>(null);
 
-  const fetchRooms = async () => {
+  const fetchRooms = useCallback(async () => {
     if (!token) return;
     const res = await fetch('http://localhost:5001/api/data/rooms', { headers: { 'Authorization': `Bearer ${token}` } });
     if (res.ok) setRooms(await res.json());
-  };
+  }, [token]);
 
-  useEffect(() => { fetchRooms(); }, [token]);
+  useEffect(() => { fetchRooms(); }, [fetchRooms]);
 
   const openModalForCreate = () => { setEditingId(null); setFormData(initialFormState); setIsModalOpen(true); };
   const openModalForEdit = (room: Room) => { setEditingId(room._id!); setFormData(room); setIsModalOpen(true); };

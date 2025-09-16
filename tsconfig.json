@@ -23,6 +23,22 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "app/**/*",
+    "components/**/*",
+    "context/**/*",
+    "lib/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "client",
+    "client/**/*",
+    ".next",
+    "out",
+    "build"
+  ]
 }

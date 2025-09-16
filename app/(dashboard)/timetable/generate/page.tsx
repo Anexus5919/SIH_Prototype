@@ -50,8 +50,8 @@ export default function GenerateTimetablePage() {
         throw new Error("The server returned an unexpected error. Check the console for details.");
       }
       
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
       setIsLoading(false);
     }
@@ -91,7 +91,7 @@ export default function GenerateTimetablePage() {
               className="w-16 h-16 border-4 border-t-blue-500 border-gray-600 rounded-full mx-auto mb-6"
             />
             <h2 className="text-2xl font-semibold">AI is at Work...</h2>
-            <p className="text-gray-400">This may take a moment. Please don't close the page.</p>
+            <p className="text-gray-400">This may take a moment. Please don&apos;t close the page.</p>
           </div>
         )}
 

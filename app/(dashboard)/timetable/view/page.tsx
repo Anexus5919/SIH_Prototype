@@ -96,7 +96,7 @@ export default function ViewTimetablePage() {
     csvContent += "Time," + days.join(",") + "\r\n";
 
     timeSlots.forEach(time => {
-        let row = [time];
+        const row = [time];
         days.forEach(day => {
             const entry = formattedSchedule[day]?.[time];
             if (entry) {

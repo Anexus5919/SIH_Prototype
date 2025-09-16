@@ -3,9 +3,7 @@
 import { useState } from 'react';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 
-interface PasswordInputProps extends React.InputHTMLAttributes<HTMLInputElement> {}
-
-export const PasswordInput = (props: PasswordInputProps) => {
+export const PasswordInput = (props: React.InputHTMLAttributes<HTMLInputElement>) => {
   const [showPassword, setShowPassword] = useState(false);
 
   return (

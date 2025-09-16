@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, FormEvent, ChangeEvent } from 'react';
+import { useState, useEffect, useCallback, FormEvent, ChangeEvent } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { Button } from '@/components/ui/Button';
@@ -26,13 +26,13 @@ export default function ManageCoursesPage() {
   const [formData, setFormData] = useState<Course>(initialFormState);
   const [editingId, setEditingId] = useState<string | null>(null);
 
-  const fetchCourses = async () => {
+  const fetchCourses = useCallback(async () => {
     if (!token) return;
     const res = await fetch('http://localhost:5001/api/data/courses', { headers: { 'Authorization': `Bearer ${token}` } });
     if (res.ok) setCourses(await res.json());
-  };
+  }, [token]);
 
-  useEffect(() => { fetchCourses(); }, [token]);
+  useEffect(() => { fetchCourses(); }, [fetchCourses]);
 
   const openModalForCreate = () => { setEditingId(null); setFormData(initialFormState); setIsModalOpen(true); };
   const openModalForEdit = (course: Course) => { setEditingId(course._id!); setFormData(course); setIsModalOpen(true); };

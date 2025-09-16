@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, FormEvent, ChangeEvent } from 'react';
+import { useState, useEffect, useCallback, FormEvent, ChangeEvent } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { Button } from '@/components/ui/Button';
@@ -22,7 +22,7 @@ export default function ManageFacultyPage() {
   const [formData, setFormData] = useState<Faculty>(initialFormState);
   const [editingId, setEditingId] = useState<string | null>(null);
 
-  const fetchFaculty = async () => {
+  const fetchFaculty = useCallback(async () => {
     if (!token) return;
     try {
       const res = await fetch('http://localhost:5001/api/data/faculty', {
@@ -34,11 +34,11 @@ export default function ManageFacultyPage() {
     } catch (error) {
       console.error(error);
     }
-  };
+  }, [token]);
 
   useEffect(() => {
     fetchFaculty();
-  }, [token]);
+  }, [fetchFaculty]);
 
   const openModalForCreate = () => {
     setEditingId(null);

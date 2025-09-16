@@ -9,6 +9,7 @@ export const TimetableProvider = ({ children }: { children: React.ReactNode }) =
   const [latestTimetable, setLatestTimetable] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  
   useEffect(() => {
     const fetchLatestTimetable = async () => {
       if (!token) {
