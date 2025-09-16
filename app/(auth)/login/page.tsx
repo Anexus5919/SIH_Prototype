@@ -28,7 +28,7 @@ export default function LoginPage() {
     const result = await login(email, password, role); 
 
     if (!result.success) {
-      setError(result.message);
+      setError(result.message || 'Login failed');
     }
     setIsLoading(false);
   };

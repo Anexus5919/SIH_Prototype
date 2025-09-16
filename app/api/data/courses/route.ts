@@ -18,7 +18,7 @@ export async function GET() {
   try {
     const courses = await Course.find();
     return NextResponse.json(courses);
-  } catch (err) {
+  } catch {
     return NextResponse.json({ error: 'Server error while fetching courses.' }, { status: 500 });
   }
 }
@@ -37,7 +37,7 @@ export async function POST(request: Request) {
     const body = await request.json();
     const course = await Course.create(body);
     return NextResponse.json(course, { status: 201 });
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 400 });
+  } catch (err: unknown) {
+    return NextResponse.json({ error: err instanceof Error ? err.message : 'Unknown error' }, { status: 400 });
   }
 }

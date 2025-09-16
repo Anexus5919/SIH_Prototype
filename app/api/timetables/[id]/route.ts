@@ -18,7 +18,7 @@ export async function GET(request: Request, { params }: Params) {
     }
     
     return NextResponse.json(timetable);
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
+  } catch (err: unknown) {
+    return NextResponse.json({ error: err instanceof Error ? err.message : 'Unknown error' }, { status: 500 });
   }
 }

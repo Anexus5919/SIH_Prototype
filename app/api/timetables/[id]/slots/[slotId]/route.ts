@@ -16,7 +16,7 @@ export async function PUT(request: Request, { params }: Params) {
       return NextResponse.json({ message: 'Timetable not found' }, { status: 404 });
     }
 
-    const slot = timetable.schedule.id(slotId);
+    const slot = timetable.schedule.find(s => s._id?.toString() === slotId);
     if (!slot) {
       return NextResponse.json({ message: 'Class slot not found' }, { status: 404 });
     }
@@ -27,7 +27,7 @@ export async function PUT(request: Request, { params }: Params) {
     await timetable.save();
     
     return NextResponse.json(slot);
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
+  } catch (err: unknown) {
+    return NextResponse.json({ error: err instanceof Error ? err.message : 'Unknown error' }, { status: 500 });
   }
 }

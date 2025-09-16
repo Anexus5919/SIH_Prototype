@@ -17,7 +17,7 @@ export async function GET() {
     // Find all users and exclude their password field from the response
     const users = await User.find({}).select('-password');
     return NextResponse.json(users);
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
+  } catch (err: unknown) {
+    return NextResponse.json({ error: err instanceof Error ? err.message : 'Unknown error' }, { status: 500 });
   }
 }

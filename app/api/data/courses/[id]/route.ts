@@ -12,7 +12,7 @@ export async function GET(request: Request, { params }: Params) {
     const course = await Course.findById(params.id);
     if (!course) return NextResponse.json({ message: 'Course not found' }, { status: 404 });
     return NextResponse.json(course);
-  } catch (err) {
+  } catch {
     return NextResponse.json({ error: 'Server error.' }, { status: 500 });
   }
 }
@@ -28,8 +28,8 @@ export async function PUT(request: Request, { params }: Params) {
         const course = await Course.findByIdAndUpdate(params.id, body, { new: true, runValidators: true });
         if (!course) return NextResponse.json({ message: 'Course not found' }, { status: 404 });
         return NextResponse.json(course);
-    } catch (err: any) {
-        return NextResponse.json({ error: err.message }, { status: 400 });
+    } catch (err: unknown) {
+        return NextResponse.json({ error: err instanceof Error ? err.message : 'Unknown error' }, { status: 400 });
     }
 }
 
@@ -43,7 +43,7 @@ export async function DELETE(request: Request, { params }: Params) {
         const course = await Course.findByIdAndDelete(params.id);
         if (!course) return NextResponse.json({ message: 'Course not found' }, { status: 404 });
         return NextResponse.json({ message: 'Course removed successfully' });
-    } catch (err) {
+    } catch {
         return NextResponse.json({ error: 'Server error.' }, { status: 500 });
     }
 }

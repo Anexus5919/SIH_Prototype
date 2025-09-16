@@ -23,19 +23,26 @@ export default function ManageFacultyPage() {
   const [editingId, setEditingId] = useState<string | null>(null);
 
   const fetchFaculty = useCallback(async () => {
-    if (!token) return;
     try {
       // --- CORRECTED URL ---
+      // Since faculty GET doesn't require auth, we can fetch without token
       const res = await fetch('/api/data/faculty', {
-        headers: { 'Authorization': `Bearer ${token}` }
+        headers: { 'Content-Type': 'application/json' }
       });
-      if (!res.ok) throw new Error('Failed to fetch faculty data');
+      if (!res.ok) {
+        console.error('Failed to fetch faculty data:', res.status, res.statusText);
+        const errorData = await res.text();
+        console.error('Error response:', errorData);
+        throw new Error(`Failed to fetch faculty data: ${res.status} ${res.statusText}`);
+      }
       const data = await res.json();
       setFacultyList(data);
     } catch (error) {
-      console.error(error);
+      console.error('Faculty fetch error:', error);
+      // Set empty array on error to prevent undefined state
+      setFacultyList([]);
     }
-  }, [token]);
+  }, []);
 
   useEffect(() => {
     fetchFaculty();

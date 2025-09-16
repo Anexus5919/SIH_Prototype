@@ -2,14 +2,14 @@ import { NextResponse } from 'next/server';
 import connectDB from '@/lib/db';
 import User from '@/lib/models/User';
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+// import jwt from 'jsonwebtoken';
 
 // This helper function can be defined here or in a shared utils file
-const generateToken = (id: string) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET as string, {
-    expiresIn: '30d',
-  });
-};
+// const generateToken = (id: string) => {
+//   return jwt.sign({ id }, process.env.JWT_SECRET as string, {
+//     expiresIn: '30d',
+//   });
+// };
 
 // This function handles POST requests made to /api/auth/register
 export async function POST(request: Request) {
@@ -39,8 +39,8 @@ export async function POST(request: Request) {
       role: user.role,
     }, { status: 201 });
 
-  } catch (err: any) {
-    console.error(err.message);
+  } catch (err: unknown) {
+    console.error(err instanceof Error ? err.message : 'Unknown error');
     return NextResponse.json({ error: 'Server Error' }, { status: 500 });
   }
 }

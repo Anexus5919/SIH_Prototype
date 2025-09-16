@@ -20,7 +20,7 @@ export async function POST(request: Request) {
     const body = await request.json();
     const newFaculty = await Faculty.create(body);
     return NextResponse.json(newFaculty, { status: 201 });
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 400 });
+  } catch (err: unknown) {
+    return NextResponse.json({ error: err instanceof Error ? err.message : 'Unknown error' }, { status: 400 });
   }
 }

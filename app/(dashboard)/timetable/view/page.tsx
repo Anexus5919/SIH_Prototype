@@ -19,8 +19,8 @@ interface ScheduleEntry {
   _id: string;
   day: string;
   time: string;
-  status: 'Scheduled' | 'Cancelled';
-  comment: string;
+  status?: 'Scheduled' | 'Cancelled';
+  comment?: string;
   course: { courseCode: string; title: string; };
   faculty: { name: string; };
   room: { roomNumber: string; };
@@ -37,13 +37,13 @@ export default function ViewTimetablePage() {
 
   const openEditModal = (slot: ScheduleEntry) => {
     setCurrentSlot(slot);
-    setFormData({ status: slot.status, comment: slot.comment || '' });
+    setFormData({ status: slot.status || 'Scheduled', comment: slot.comment || '' });
     setIsModalOpen(true);
   };
   
   const handleStatusUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!currentSlot) return;
+    if (!currentSlot || !latestTimetable) return;
     const res = await fetch(`/api/timetables/${latestTimetable._id}/slots/${currentSlot._id}`, { 
       method: 'PUT', 
       headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }, 
@@ -51,7 +51,7 @@ export default function ViewTimetablePage() {
     });
     if (res.ok) {
       const updatedSlotData = await res.json();
-      const newSchedule = latestTimetable.schedule.map((s: ScheduleEntry) => s._id === currentSlot._id ? { ...s, ...updatedSlotData } : s);
+      const newSchedule = latestTimetable.schedule.map((s) => s._id === currentSlot._id ? { ...s, ...updatedSlotData } : s);
       setLatestTimetable({ ...latestTimetable, schedule: newSchedule });
       setIsModalOpen(false);
     } else { 

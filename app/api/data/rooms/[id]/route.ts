@@ -24,8 +24,8 @@ export async function PUT(request: Request, { params }: Params) {
         const updatedRoom = await Room.findByIdAndUpdate(params.id, body, { new: true, runValidators: true });
         if (!updatedRoom) return NextResponse.json({ message: 'Room not found' }, { status: 404 });
         return NextResponse.json(updatedRoom);
-    } catch (err: any) {
-        return NextResponse.json({ error: err.message }, { status: 400 });
+    } catch (err: unknown) {
+        return NextResponse.json({ error: err instanceof Error ? err.message : 'Unknown error' }, { status: 400 });
     }
 }
 

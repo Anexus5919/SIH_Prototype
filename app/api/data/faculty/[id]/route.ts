@@ -24,8 +24,8 @@ export async function PUT(request: Request, { params }: Params) {
         const updatedFaculty = await Faculty.findByIdAndUpdate(params.id, body, { new: true, runValidators: true });
         if (!updatedFaculty) return NextResponse.json({ message: 'Faculty not found' }, { status: 404 });
         return NextResponse.json(updatedFaculty);
-    } catch (err: any) {
-        return NextResponse.json({ error: err.message }, { status: 400 });
+    } catch (err: unknown) {
+        return NextResponse.json({ error: err instanceof Error ? err.message : 'Unknown error' }, { status: 400 });
     }
 }
 

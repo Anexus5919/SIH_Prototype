@@ -13,8 +13,8 @@ export async function GET() {
       constraints = await Constraint.create({});
     }
     return NextResponse.json(constraints);
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
+  } catch (err: unknown) {
+    return NextResponse.json({ error: err instanceof Error ? err.message : 'Unknown error' }, { status: 500 });
   }
 }
 
@@ -36,7 +36,7 @@ export async function PUT(request: Request) {
       { new: true, upsert: true, runValidators: true } // upsert:true creates the doc if it's missing
     );
     return NextResponse.json(constraints);
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message }, { status: 400 });
+  } catch (err: unknown) {
+    return NextResponse.json({ error: err instanceof Error ? err.message : 'Unknown error' }, { status: 400 });
   }
 }

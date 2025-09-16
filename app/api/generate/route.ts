@@ -37,7 +37,7 @@ export async function POST(request: Request) {
 
         // 3. Save the new timetable
         const { program, semester } = await request.json();
-        let newTimetable = new Timetable({
+        const newTimetable = new Timetable({
             program,
             semester,
             schedule: bestTimetable.schedule,
@@ -58,8 +58,8 @@ export async function POST(request: Request) {
             timetable: populatedTimetable,
         }, { status: 201 });
 
-    } catch (err: any) {
+    } catch (err: unknown) {
         console.error("Error during timetable generation:", err);
-        return NextResponse.json({ error: err.message }, { status: 500 });
+        return NextResponse.json({ error: err instanceof Error ? err.message : 'Unknown error' }, { status: 500 });
     }
 }
