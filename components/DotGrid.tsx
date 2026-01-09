@@ -22,8 +22,10 @@ import { InertiaPlugin } from 'gsap/InertiaPlugin';
 
 gsap.registerPlugin(InertiaPlugin);
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const throttle = (func: (...args: any[]) => void, limit: number) => {
   let lastCall = 0;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return function (this: any, ...args: any[]) {
     const now = performance.now();
     if (now - lastCall >= limit) {
@@ -188,17 +190,18 @@ const DotGrid: React.FC<DotGridProps> = ({
     const timer = setTimeout(() => {
       buildGrid();
     }, 100);
-    
+
+    const wrapperElement = wrapperRef.current;
     let ro: ResizeObserver | null = null;
     if (typeof window !== 'undefined' && 'ResizeObserver' in window) {
       ro = new ResizeObserver(buildGrid);
-      if (wrapperRef.current) ro.observe(wrapperRef.current);
+      if (wrapperElement) ro.observe(wrapperElement);
     } else if (typeof window !== 'undefined') {
       (window as Window).addEventListener('resize', buildGrid);
     }
     return () => {
       clearTimeout(timer);
-      if (ro && wrapperRef.current) ro.unobserve(wrapperRef.current);
+      if (ro && wrapperElement) ro.unobserve(wrapperElement);
       else (window as Window).removeEventListener('resize', buildGrid);
     };
   }, [buildGrid]);
