@@ -26,17 +26,18 @@ const features = [
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen w-full overflow-x-hidden bg-gray-900 text-white">
-      {/* Animated Gradient Background */}
-      <div className="absolute inset-0 -z-10 h-full w-full bg-gradient-to-br from-gray-900 via-blue-900/40 to-gray-900" />
-      
+    <div className="min-h-screen w-full overflow-x-hidden text-white relative">
+      {/* Animated Gradient Background - REMOVED to show DotGrid */
+        /* <div className="absolute inset-0 -z-10 h-full w-full bg-gradient-to-br from-gray-900 via-blue-900/40 to-gray-900" /> */
+      }
+
       {/* Hero Section */}
       <section className="min-h-screen flex items-center justify-center p-4">
         <GlassCard className="p-8 md:p-12 text-center">
-        <Link href="/">
-          <h1 className="text-5xl md:text-7xl font-bold mb-4 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
-            EduSchedule AI
-          </h1>
+          <Link href="/">
+            <h1 className="text-5xl md:text-7xl font-bold mb-4 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
+              EduSchedule AI
+            </h1>
           </Link>
           <p className="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl">
             Intelligent Timetabling for the Modern University. Effortless, Optimized, and Future-Ready.

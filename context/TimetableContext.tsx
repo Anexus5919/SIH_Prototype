@@ -34,7 +34,7 @@ export const TimetableProvider = ({ children }: { children: React.ReactNode }) =
   useEffect(() => {
     const fetchLatestTimetable = async () => {
       console.log('Fetching timetable data...');
-      
+
       try {
         // --- ❗ THIS URL IS NOW RELATIVE ❗ ---
         // Since timetables/latest doesn't require auth, we can fetch without token
@@ -54,8 +54,8 @@ export const TimetableProvider = ({ children }: { children: React.ReactNode }) =
           console.error("Error response:", errorData);
         }
       } catch (error) {
-        console.error("Network error while fetching timetable:", error);
-        // Set a default state instead of leaving it undefined
+        console.warn("Could not fetch latest timetable (Backend might be offline or DB not connected). Using empty state.", error);
+        // Set a default state instead of leaving it undefined or crashing
         setLatestTimetable(null);
       } finally {
         setIsLoading(false);
@@ -64,7 +64,7 @@ export const TimetableProvider = ({ children }: { children: React.ReactNode }) =
 
     fetchLatestTimetable();
   }, []);
-  
+
   return (
     <TimetableContext.Provider value={{ latestTimetable, setLatestTimetable, isLoading }}>
       {children}

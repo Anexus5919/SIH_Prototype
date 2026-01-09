@@ -23,9 +23,9 @@ export default function LoginPage() {
     e.preventDefault();
     setIsLoading(true);
     setError('');
-    
+
     // 2. Pass the role to the login function
-    const result = await login(email, password, role); 
+    const result = await login(email, password, role);
 
     if (!result.success) {
       setError(result.message || 'Login failed');
@@ -41,9 +41,9 @@ export default function LoginPage() {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 },
   };
-  
+
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-gray-900 via-blue-900/40 to-gray-900">
+    <div className="min-h-screen flex items-center justify-center p-4">
       <GlassCard className="p-8 w-full max-w-md">
         <form onSubmit={handleSubmit}>
           <motion.div
@@ -65,9 +65,9 @@ export default function LoginPage() {
             {/* --- 3. NEW ROLE DROPDOWN UI --- */}
             <motion.div variants={itemVariants}>
               <label className="text-sm text-gray-400">Login as</label>
-              <select 
-                value={role} 
-                onChange={(e) => setRole(e.target.value as Role)} 
+              <select
+                value={role}
+                onChange={(e) => setRole(e.target.value as Role)}
                 className="w-full mt-1 p-3 bg-white/5 rounded-lg border border-white/10 focus:ring-2 focus:ring-blue-500 focus:outline-none"
               >
                 <option className='text-stone-950' value="Student">Student</option>
@@ -79,11 +79,11 @@ export default function LoginPage() {
 
             <motion.div variants={itemVariants}>
               <label className="text-sm text-gray-400">Email</label>
-              <input 
-                type="email" 
+              <input
+                type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="user@example.com" 
+                placeholder="user@example.com"
                 required
                 className="w-full mt-1 p-3 bg-white/5 rounded-lg border border-white/10 focus:ring-2 focus:ring-blue-500 focus:outline-none"
               />
@@ -91,14 +91,14 @@ export default function LoginPage() {
 
             <motion.div variants={itemVariants}>
               <label className="text-sm text-gray-400">Password</label>
-              <PasswordInput 
+              <PasswordInput
                 value={password}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
-                placeholder="••••••••" 
+                placeholder="••••••••"
                 required
               />
             </motion.div>
-            
+
             <motion.div variants={itemVariants}>
               <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 shadow-blue-500/50 shadow-lg py-3" disabled={isLoading}>
                 {isLoading ? 'Logging In...' : 'Log In'}

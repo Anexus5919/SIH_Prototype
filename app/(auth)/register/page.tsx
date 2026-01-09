@@ -58,7 +58,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-gray-900 via-blue-900/40 to-gray-900">
+    <div className="min-h-screen flex items-center justify-center p-4">
       <GlassCard className="p-8 w-full max-w-md">
         <form onSubmit={handleSubmit}>
           <motion.div
@@ -76,20 +76,20 @@ export default function RegisterPage() {
                 {error}
               </motion.p>
             )}
-            
+
             <motion.div variants={itemVariants}>
               <label className="text-sm text-gray-400">Full Name</label>
-              <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="John Doe" required className="w-full mt-1 p-3 bg-white/5 rounded-lg border border-white/10 focus:ring-2 focus:ring-blue-500 focus:outline-none"/>
+              <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="John Doe" required className="w-full mt-1 p-3 bg-white/5 rounded-lg border border-white/10 focus:ring-2 focus:ring-blue-500 focus:outline-none" />
             </motion.div>
-            
+
             <motion.div variants={itemVariants}>
               <label className="text-sm text-gray-400">Email</label>
-              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="user@example.com" required className="w-full mt-1 p-3 bg-white/5 rounded-lg border border-white/10 focus:ring-2 focus:ring-blue-500 focus:outline-none"/>
+              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="user@example.com" required className="w-full mt-1 p-3 bg-white/5 rounded-lg border border-white/10 focus:ring-2 focus:ring-blue-500 focus:outline-none" />
             </motion.div>
-            
+
             <motion.div variants={itemVariants}>
               <label className="text-sm text-gray-400">Password</label>
-              <PasswordInput 
+              <PasswordInput
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
@@ -106,22 +106,21 @@ export default function RegisterPage() {
                     key={r}
                     type="button"
                     onClick={() => setRole(r)}
-                    className={`p-3 rounded-lg text-sm transition-all duration-300 ${
-                      role === r ? 'bg-blue-600 text-white font-semibold' : 'bg-white/5 hover:bg-white/10'
-                    }`}
+                    className={`p-3 rounded-lg text-sm transition-all duration-300 ${role === r ? 'bg-blue-600 text-white font-semibold' : 'bg-white/5 hover:bg-white/10'
+                      }`}
                   >
                     {r}
                   </button>
                 ))}
               </div>
             </motion.div>
-            
+
             <motion.div variants={itemVariants}>
               <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 shadow-blue-500/50 shadow-lg py-3 mt-2" disabled={isLoading}>
                 {isLoading ? 'Creating Account...' : 'Sign Up'}
               </Button>
             </motion.div>
-            
+
             <motion.p variants={itemVariants} className="text-center text-sm text-gray-400">
               Already have an account?{' '}
               <Link href="/login" className="font-semibold text-blue-400 hover:underline">
